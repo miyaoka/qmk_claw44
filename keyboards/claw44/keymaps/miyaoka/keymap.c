@@ -66,6 +66,7 @@ uint16_t hold_timers[MATRIX_ROWS][MATRIX_COLS];
 #define XXXXXXX KC_NO
 #define SFT_LB  SFT_T(KC_LBRC)
 #define SFT_RB  SFT_T(KC_RBRC)
+#define SFT_ESC SFT_T(KC_ESC)
 #define NAV_ENT LT(L_NAV, KC_ENT)
 #define GUI_SPC GUI_T(KC_SPC)
 #define CTL_SPC CTL_T(KC_SPC)
@@ -76,9 +77,9 @@ uint16_t hold_timers[MATRIX_ROWS][MATRIX_COLS];
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [L_COMMON] = LAYOUT( \
-KC_ESC , _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______, KC_BSLS,
+KC_TAB , _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______, KC_BSLS,
 KC_QUOT, _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______, KC_MINS,
-KC_LSFT, _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______, KC_KP_PLUS,
+SFT_ESC, _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______, KC_KP_PLUS,
                    KC_GRV, SFT_LB , _______, CK_A_EN,  CK_C_JA, NAV_ENT, SFT_RB , KC_BSPC
 ),
 [L_MAC] = LAYOUT( \
@@ -107,8 +108,8 @@ _______, KC_EXLM, KC_AT  , KC_HASH, KC_DLR , KC_PERC,  KC_CIRC, KC_AMPR, KC_ASTR
 ),
 [L_NUM] = LAYOUT( \
 _______, _______, _______, _______, _______, MENU   ,  DOCK   , KC_7   , KC_8   , KC_9   , _______, _______,
-_______, _______, _______, _______, _______, KC_TAB ,  KC_EQL , KC_4   , KC_5   , KC_6   , _______, _______,
-_______, _______, _______, _______, _______, KC_TAB ,  KC_EQL , KC_1   , KC_2   , KC_3   , _______, _______,
+_______, _______, _______, _______, _______, _______,  KC_EQL , KC_4   , KC_5   , KC_6   , _______, _______,
+_______, _______, _______, _______, _______, _______,  KC_EQL , KC_1   , KC_2   , KC_3   , _______, _______,
                   _______, _______, _______, _______,  _______, _______, KC_0   , KC_DOT
 )
 };
