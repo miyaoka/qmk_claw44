@@ -70,10 +70,7 @@ uint16_t hold_timers[MATRIX_ROWS][MATRIX_COLS];
 #define NAV_ENT LT(L_NAV, KC_ENT)
 #define GUI_SPC GUI_T(KC_SPC)
 #define CTL_SPC CTL_T(KC_SPC)
-#define NUM_A   LT(L_NUM,KC_A)
-#define NUM_S   LT(L_NUM,KC_S)
-#define NUM_O   LT(L_NUM,KC_O)
-#define NUM_E   LT(L_NUM,KC_E)
+#define N(kc)   LT(L_NUM,kc)
 #define DOCK    C(KC_F3)
 #define MENU    C(KC_F2)
 
@@ -98,7 +95,7 @@ _______, _______, _______, _______, _______, _______,  _______, _______, _______
 ),
 [L_QWDR] = LAYOUT( \
 _______, KC_Q   , KC_W   , KC_D   , KC_R   , KC_F   ,  KC_P   , KC_K   , KC_Y   , KC_L   , KC_SCLN, _______,
-_______, NUM_A  , NUM_S  , KC_U   , KC_T   , KC_G   ,  KC_H   , KC_N   , KC_I   , NUM_O  , NUM_E  , _______,
+_______, N(KC_A), N(KC_S), N(KC_U), N(KC_T), KC_G   ,  KC_H   , N(KC_N), N(KC_I), N(KC_O), N(KC_E), _______,
 _______, KC_Z   , KC_X   , KC_C   , KC_B   , KC_V   ,  KC_J   , KC_M   , KC_COMM, KC_DOT , KC_SLSH, _______,
                   _______, _______, _______, _______,  _______, _______, _______, _______
 ),
