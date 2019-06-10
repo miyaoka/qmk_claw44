@@ -103,7 +103,7 @@ _______, KC_Z   , KC_X   , KC_C   , KC_B   , KC_V   ,  KC_J   , KC_M   , KC_COMM
                   _______, _______, _______, _______,  _______, _______, _______, _______
 ),
 [L_NAV] = LAYOUT( \
-_______, _______, KC_PREV, KC_M_U , KC_NEXT, KC_HOME,  KC_END , KC_PGDN, KC_PGUP, KC_SPC , KC_LALT, KC_LGUI,
+_______, _______, KC_PREV, KC_M_U , KC_NEXT, KC_HOME,  KC_END , KC_PGDN, KC_PGUP, KC_LGUI, KC_LALT, KC_SPC ,
 KC_LPRN, KC_QUES, KC_M_L , KC_M_D , KC_M_R , KC_TAB ,  KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, KC_COLN, KC_RPRN,
 _______, KC_EXLM, KC_AT  , KC_HASH, KC_DLR , KC_PERC,  KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
                   _______, KC_M_B3, KC_M_B1, KC_M_B2,  _______, _______, _______, _______
