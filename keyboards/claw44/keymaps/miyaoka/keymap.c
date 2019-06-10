@@ -64,9 +64,9 @@ uint16_t hold_timers[MATRIX_ROWS][MATRIX_COLS];
 // Fillers to make layering clearer
 #define _______ KC_TRNS
 #define XXXXXXX KC_NO
-#define SFT_LB  SFT_T(KC_LBRC)
-#define SFT_RB  SFT_T(KC_RBRC)
-#define SFT_ESC SFT_T(KC_ESC)
+#define S_LB    SFT_T(KC_LBRC)
+#define S_RB    SFT_T(KC_RBRC)
+#define S_QOT   SFT_T(KC_QUOT)
 #define NAV_ENT LT(L_NAV, KC_ENT)
 #define GUI_SPC GUI_T(KC_SPC)
 #define CTL_SPC CTL_T(KC_SPC)
@@ -80,9 +80,9 @@ uint16_t hold_timers[MATRIX_ROWS][MATRIX_COLS];
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [L_COMMON] = LAYOUT( \
 KC_TAB , _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______, KC_BSLS,
-KC_QUOT, _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______, KC_MINS,
+S_QOT  , _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______, KC_MINS,
 KC_LSFT, _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______, KC_KP_PLUS,
-                   KC_GRV, SFT_LB , _______, CK_A_EN,  CK_C_JA, NAV_ENT, SFT_RB , KC_BSPC
+                   KC_GRV, S_LB   , _______, CK_A_EN,  CK_C_JA, NAV_ENT, S_RB   , KC_BSPC
 ),
 [L_MAC] = LAYOUT( \
 _______, _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______, _______,
