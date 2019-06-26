@@ -30,7 +30,8 @@ matrix_row_t read_cols(void);
 
 static bool bootloader_flag = false;
 
-void matrix_init_user() {
+void matrix_init_kb(void) {
+  matrix_init_user();
   select_row(0);
   wait_us(50);
   matrix_row_t row = read_cols();
