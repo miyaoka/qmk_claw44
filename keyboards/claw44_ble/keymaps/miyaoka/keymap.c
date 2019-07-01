@@ -38,12 +38,6 @@ enum custom_keycodes {
     DEL_ID4,              /* Delete bonding of PeerID 4           */
     ENT_DFU,              /* Start bootloader                     */
     ENT_SLP,              /* Deep sleep mode                      */
-    QWERTY,
-    COLEMAK,
-    DVORAK,
-    LOWER,
-    RAISE,
-    ADJUST,
     //BACKLIT,
     //EISU,
     //KANA,
@@ -74,9 +68,6 @@ extern keymap_config_t keymap_config;
 #define KC_M_D KC_MS_D
 #define KC_M_L KC_MS_L
 #define KC_M_R KC_MS_R
-#define KC_M_A0 KC_MS_ACCEL0
-#define KC_M_A1 KC_MS_ACCEL1
-#define KC_M_A2 KC_MS_ACCEL2
 #define KC_M_B1 KC_MS_BTN1
 #define KC_M_B2 KC_MS_BTN2
 #define KC_M_B3 KC_MS_BTN3
@@ -86,9 +77,6 @@ extern keymap_config_t keymap_config;
 
 enum layers {
   L_COMMON = 0,
-  L_MAC,
-  L_WIN,
-  L_QWDR,
   L_NAV,
   L_NUM,
   L_BLE
@@ -100,39 +88,19 @@ enum layers {
 #define S_RB    SFT_T(KC_RBRC)
 #define S_QOT   SFT_T(KC_QUOT)
 #define NAV_ENT LT(L_NAV, KC_ENT)
-#define GUI_SPC LGUI_T(KC_SPC)
+#define GUI_SPC GUI_T(KC_SPC)
 #define CTL_SPC CTL_T(KC_SPC)
 #define N(kc)   LT(L_NUM,kc)
 #define DOCK    C(KC_F3)
 #define MENU    C(KC_F2)
 #define B_GRV LT(L_BLE, KC_GRV)
 
-uint16_t hold_timers[MATRIX_ROWS][MATRIX_COLS];
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [L_COMMON] = LAYOUT( \
-KC_TAB , _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______, KC_BSLS,
-S_QOT  , _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______, KC_MINS,
-KC_LSFT, _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______, KC_KP_PLUS,
+KC_TAB , KC_Q   , KC_W   , KC_D   , KC_R   , KC_F   ,  KC_P   , KC_K   , KC_Y   , KC_L   , KC_SCLN, KC_BSLS,
+S_QOT  , N(KC_A), N(KC_S), KC_U   , KC_T   , KC_G   ,  KC_H   , KC_N   , KC_I   , N(KC_O), N(KC_E), KC_MINS,
+KC_LSFT, KC_Z   , KC_X   , KC_C   , KC_B   , KC_V   ,  KC_J   , KC_M   , KC_COMM, KC_DOT , KC_SLSH, KC_KP_PLUS,
                     B_GRV, S_LB   , GUI_SPC, CK_A_EN,  CK_C_JA, NAV_ENT, S_RB   , KC_BSPC
-),
-[L_MAC] = LAYOUT( \
-_______, _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______, _______,
-_______, _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______, _______,
-_______, _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______, _______,
-                  _______, _______, KC_A, _______,  _______, _______, _______, _______
-),
-[L_WIN] = LAYOUT( \
-_______, _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______, _______,
-_______, _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______, _______,
-_______, _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______, _______,
-                  _______, _______, CTL_SPC, _______,  _______, _______, _______, _______
-),
-[L_QWDR] = LAYOUT( \
-_______, KC_Q   , KC_W   , KC_D   , KC_R   , KC_F   ,  KC_P   , KC_K   , KC_Y   , KC_L   , KC_SCLN, _______,
-_______, N(KC_A), N(KC_S), N(KC_U), N(KC_T), KC_G   ,  KC_H   , N(KC_N), N(KC_I), N(KC_O), N(KC_E), _______,
-_______, KC_Z   , KC_X   , KC_C   , KC_B   , KC_V   ,  KC_J   , KC_M   , KC_COMM, KC_DOT , KC_SLSH, _______,
-                  _______, _______, _______, _______,  _______, _______, _______, _______
 ),
 [L_NAV] = LAYOUT( \
 _______, _______, KC_PREV, KC_M_U , KC_NEXT, KC_HOME,  KC_END , KC_PGDN, KC_PGUP, KC_LGUI, KC_LALT, KC_SPC ,
@@ -205,28 +173,13 @@ void set_kana(void) {
   type_code(KC_LANG1);
 };
 
-bool is_tap(keyrecord_t *record) { return hold_timers[record->event.key.row][record->event.key.col] && timer_elapsed(hold_timers[record->event.key.row][record->event.key.col]) < TAPPING_TERM; }
-
-void mod_tap_action(keyrecord_t *record, uint8_t mod, void (*cb)(void)) {
-  if (record->event.pressed) {
-    add_mods(MOD_BIT(mod));
-  } else {
-    if (is_tap(record)) {
-      del_mods(MOD_BIT(mod));
-      cb();
-    } else {
-      unregister_code(mod);
-    }
-  }
-}
+static bool en_pressed = false;
+static bool ja_pressed = false;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   char str[16];
 
   if (record->event.pressed) {
-    // record pressed timer
-    hold_timers[record->event.key.row][record->event.key.col] = timer_read();
-
     switch (keycode) {
     case DELBNDS:
       delete_bonds();
@@ -284,46 +237,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case ENT_DFU:
       bootloader_jump();
       return false;
-    }
-  }
-  else if (!record->event.pressed) {
-    switch (keycode) {
-    case ENT_SLP:
-      sleep_mode_enter();
-      return false;
-    }
-  }
-
-  switch (keycode) {
-    //--layers--
-
-    // os
-    case CK_MAC:
-      if (record->event.pressed) {
-        persistant_default_layer_set(1UL << L_MAC);
-      }
-      return false;
-      break;
-    case CK_WIN:
-      if (record->event.pressed) {
-        persistant_default_layer_set(1UL << L_WIN);
-      }
-      return false;
-      break;
 
     // langs
     case CK_A_EN:
-      mod_tap_action(record, KC_LALT, set_eisu);
+      en_pressed = true;
+      add_mods(MOD_BIT(KC_LALT));
       return false;
-      break;
+
     case CK_C_JA:
-      mod_tap_action(record, KC_RCTL, set_kana);
+      ja_pressed = true;
+      add_mods(MOD_BIT(KC_RCTL));
       return false;
-      break;
 
     // Ctrl-Q -> Alt-F4
     case KC_Q:
-      if (record->event.pressed && (get_mods() & MOD_CTLS)) {
+      if (get_mods() & MOD_CTLS) {
         clear_keyboard();
         add_mods(MOD_BIT(KC_LALT));
         type_code(KC_F4);
@@ -331,12 +259,46 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
       }
       break;
+
+    default:
+      en_pressed = false;
+      ja_pressed = false;
+    }
+
   }
+  else if (!record->event.pressed) {
+    switch (keycode) {
+    case ENT_SLP:
+      sleep_mode_enter();
+      return false;
+
+    case CK_A_EN:
+      if (en_pressed) {
+        del_mods(MOD_BIT(KC_LALT));
+        set_eisu();
+      } else {
+        unregister_code(KC_LALT);
+      }
+      en_pressed = false;
+      return false;
+
+    case CK_C_JA:
+      if (ja_pressed) {
+        del_mods(MOD_BIT(KC_RCTL));
+        set_kana();
+      } else {
+        unregister_code(KC_RCTL);
+      }
+      ja_pressed = false;
+
+    }
+  }
+
   return true;
 }
 
 // Runs just one time when the keyboard initializes.
-void matrix_init_user(void) {
-  persistant_default_layer_set(1UL << L_MAC);
-  layer_move(L_QWDR);
-};
+// void matrix_init_user(void) {
+//   persistant_default_layer_set(1UL << L_MAC);
+//   layer_move(L_QWDR);
+// };

@@ -20,8 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-// #undef TAPPING_TERM
-// #define TAPPING_TERM 200
+#undef TAPPING_TERM
+#define TAPPING_TERM 250
 
 #undef PREVENT_STUCK_MODIFIERS
 #define PREVENT_STUCK_MODIFIERS
@@ -34,6 +34,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define MOUSEKEY_INTERVAL 20
 #define MOUSEKEY_DELAY 0
-#define MOUSEKEY_TIME_TO_MAX 20
+#define MOUSEKEY_TIME_TO_MAX 15
 #define MOUSEKEY_MAX_SPEED 14
 #define MOUSEKEY_MOVE_DELTA 2
+
+#define BLE_HID_MAX_INTERVAL 30
