@@ -59,8 +59,6 @@ enum custom_keycodes {
   CK_C_JA,
 };
 
-uint16_t hold_timers[MATRIX_ROWS][MATRIX_COLS];
-
 // Fillers to make layering clearer
 #define _______ KC_TRNS
 #define XXXXXXX KC_NO
@@ -95,7 +93,7 @@ _______, _______, _______, _______, _______, _______,  _______, _______, _______
 ),
 [L_QWDR] = LAYOUT( \
 _______, KC_Q   , KC_W   , KC_D   , KC_R   , KC_F   ,  KC_P   , KC_K   , KC_Y   , KC_L   , KC_SCLN, _______,
-_______, N(KC_A), N(KC_S), N(KC_U), N(KC_T), KC_G   ,  KC_H   , N(KC_N), N(KC_I), N(KC_O), N(KC_E), _______,
+_______, N(KC_A), N(KC_S), KC_U   , KC_T   , KC_G   ,  KC_H   , KC_N   , KC_I   , N(KC_O), N(KC_E), _______,
 _______, KC_Z   , KC_X   , KC_C   , KC_B   , KC_V   ,  KC_J   , KC_M   , KC_COMM, KC_DOT , KC_SLSH, _______,
                   _______, _______, _______, _______,  _______, _______, _______, _______
 ),
@@ -109,7 +107,7 @@ _______, KC_EXLM, KC_AT  , KC_HASH, KC_DLR , KC_PERC,  KC_CIRC, KC_AMPR, KC_ASTR
 _______, KC_F1  , KC_F2  , KC_F3  , KC_F4  , _______,  DOCK   , KC_7   , KC_8   , KC_9   , _______, _______,
 _______, KC_F5  , KC_F6,   KC_F7  , KC_F8  , KC_TAB ,  KC_EQL , KC_4   , KC_5   , KC_6   , KC_ESC , _______,
 _______, KC_F9  , KC_F10 , KC_F11 , KC_F12 , _______,  KC_EQL , KC_1   , KC_2   , KC_3   , _______, _______,
-                  _______, _______, _______, _______,  KC_ESC , _______, KC_0   , KC_DOT
+                  _______, _______, _______, KC_ESC ,  KC_ESC , _______, KC_0   , KC_DOT
 )
 };
 
@@ -141,57 +139,37 @@ void set_kana(void) {
   type_code(KC_LANG1);
 };
 
-bool is_tap(keyrecord_t *record) { return hold_timers[record->event.key.row][record->event.key.col] && timer_elapsed(hold_timers[record->event.key.row][record->event.key.col]) < TAPPING_TERM; }
-
-void mod_tap_action(keyrecord_t *record, uint8_t mod, void (*cb)(void)) {
-  if (record->event.pressed) {
-    add_mods(MOD_BIT(mod));
-  } else {
-    if (is_tap(record)) {
-      del_mods(MOD_BIT(mod));
-      cb();
-    } else {
-      unregister_code(mod);
-    }
-  }
-}
+static bool en_pressed = false;
+static bool ja_pressed = false;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  // record pressed timer
-  if (record->event.pressed) {
-    hold_timers[record->event.key.row][record->event.key.col] = timer_read();
-  }
 
-  switch (keycode) {
+  if(record->event.pressed){
+    switch (keycode) {
     //--layers--
 
     // os
     case CK_MAC:
-      if (record->event.pressed) {
-        persistant_default_layer_set(1UL << L_MAC);
-      }
+      persistant_default_layer_set(1UL << L_MAC);
       return false;
-      break;
     case CK_WIN:
-      if (record->event.pressed) {
-        persistant_default_layer_set(1UL << L_WIN);
-      }
+      persistant_default_layer_set(1UL << L_WIN);
       return false;
-      break;
 
     // langs
     case CK_A_EN:
-      mod_tap_action(record, KC_LALT, set_eisu);
+      en_pressed = true;
+      add_mods(MOD_BIT(KC_LALT));
       return false;
-      break;
+
     case CK_C_JA:
-      mod_tap_action(record, KC_RCTL, set_kana);
+      ja_pressed = true;
+      add_mods(MOD_BIT(KC_RCTL));
       return false;
-      break;
 
     // Ctrl-Q -> Alt-F4
     case KC_Q:
-      if (record->event.pressed && (get_mods() & MOD_CTLS)) {
+      if (get_mods() & MOD_CTLS) {
         clear_keyboard();
         add_mods(MOD_BIT(KC_LALT));
         type_code(KC_F4);
@@ -199,6 +177,33 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
       }
       break;
+    default:
+      en_pressed = false;
+      ja_pressed = false;
+    }
+  } else if (!record->event.pressed) {
+    switch (keycode) {
+
+    case CK_A_EN:
+      if (en_pressed) {
+        del_mods(MOD_BIT(KC_LALT));
+        set_eisu();
+      } else {
+        unregister_code(KC_LALT);
+      }
+      en_pressed = false;
+      return false;
+
+    case CK_C_JA:
+      if (ja_pressed) {
+        del_mods(MOD_BIT(KC_RCTL));
+        set_kana();
+      } else {
+        unregister_code(KC_RCTL);
+      }
+      ja_pressed = false;
+      return false;
+    }
   }
   return true;
 }

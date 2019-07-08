@@ -28,16 +28,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define MASTER_RIGHT
 // #define EE_HANDS
 
-#define SSD1306OLED
+#undef TAPPING_TERM
+#define TAPPING_TERM 250
 
-#define USE_SERIAL_PD2
-
-#define TAPPING_TERM 200
-
+#undef PREVENT_STUCK_MODIFIERS
 #define PREVENT_STUCK_MODIFIERS
 
-#define MOUSEKEY_INTERVAL 20
+#undef MOUSEKEY_INTERVAL
+#undef MOUSEKEY_DELAY
+#undef MOUSEKEY_TIME_TO_MAX
+#undef MOUSEKEY_MAX_SPEED
+#undef MOUSEKEY_MOVE_DELTA
+
+#define MOUSEKEY_INTERVAL 30
 #define MOUSEKEY_DELAY 0
-#define MOUSEKEY_TIME_TO_MAX 20
+#define MOUSEKEY_TIME_TO_MAX 15
 #define MOUSEKEY_MAX_SPEED 14
-#define MOUSEKEY_MOVE_DELTA 2
+#define MOUSEKEY_MOVE_DELTA 3
