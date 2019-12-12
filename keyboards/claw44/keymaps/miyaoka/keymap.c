@@ -95,7 +95,7 @@ _______, _______, _______, _______, _______, _______,  _______, _______, _______
 ),
 [L_QWDR] = LAYOUT( \
 _______, KC_Q   , KC_W   , KC_D   , KC_R   , KC_F   ,  KC_P   , KC_K   , KC_Y   , KC_L   , KC_SCLN, _______,
-_______, N(KC_A), N(KC_S), KC_U   , KC_T   , KC_G   ,  KC_H   , KC_N   , KC_I   , N(KC_O), N(KC_E), _______,
+_______, N(KC_A), N(KC_S), KC_U   , KC_T   , KC_G   ,  KC_H   , KC_N   , KC_I   , KC_O   , N(KC_E), _______,
 _______, KC_Z   , KC_X   , KC_C   , KC_B   , KC_V   ,  KC_J   , KC_M   , KC_COMM, KC_DOT , KC_SLSH, _______,
                   _______, _______, _______, _______,  _______, _______, _______, _______
 ),
@@ -107,9 +107,9 @@ _______, KC_EXLM, KC_AT  , KC_HASH, KC_DLR , KC_PERC,  KC_CIRC, KC_AMPR, KC_ASTR
 ),
 [L_NUM] = LAYOUT( \
 _______, KC_F1  , KC_F2  , KC_F3  , KC_F4  , _______,  DOCK   , KC_7   , KC_8   , KC_9   , _______, _______,
-_______, KC_F5  , KC_F6,   KC_F7  , KC_F8  , KC_TAB ,  KC_EQL , KC_4   , KC_5   , KC_6   , KC_ESC , _______,
-_______, KC_F9  , KC_F10 , KC_F11 , KC_F12 , _______,  KC_EQL , KC_1   , KC_2   , KC_3   , _______, _______,
-                  _______, _______, _______, KC_ESC ,  KC_ESC , _______, KC_0   , KC_DOT
+_______, KC_F5  , KC_F6,   KC_F7  , KC_F8  , KC_TAB ,  KC_EQL , KC_4   , KC_5   , KC_6   , _______, _______,
+_______, KC_F9  , KC_F10 , KC_F11 , KC_F12 , _______,  _______, KC_1   , KC_2   , KC_3   , _______, _______,
+                  _______, _______, _______, _______,  KC_ESC , _______, KC_0   , KC_DOT
 )
 };
 
